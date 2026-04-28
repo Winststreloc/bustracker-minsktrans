@@ -14,7 +14,7 @@
 #define SCREEN_HEIGHT 64
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-static const char* WIFI_SSID     = "";
+static const char* WIFI_SSID     = ""; // свой wifi
 static const char* WIFI_PASSWORD = "";
 
 static const char* PROXY_HOST = "192.168.1.8";

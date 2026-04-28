@@ -31,7 +31,6 @@ class _ArithmeticOp(enum.Enum):
 # Internal helpers
 
 class _RateLimiter:
-    """Token-bucket rate limiter: позволяет не более *rps* запросов в секунду."""
 
     def __init__(self, rps: float) -> None:
         self._interval = 1.0 / rps
@@ -51,9 +50,8 @@ class _RateLimiter:
 
 class _AntiScrapeTransform:
     """
-    Сайт minsktrans применяет простую арифметическую операцию к числовым
-    параметрам перед отправкой, чтобы отфильтровать наивных ботов.
-    Этот класс воспроизводит логику их JS-защиты.
+    minsktrans применяет простую арифметическую операцию к числовым
+    параметрам перед отправкой, чтобы отфильтровать наивных ботов
     """
 
     _PATTERN = re.compile(r"'v': function \(a\) { return (\d+) (.) a; }")
@@ -78,7 +76,6 @@ class _AntiScrapeTransform:
 
     def apply(self, value: int | str) -> int:
         if isinstance(value, str):
-            # Берём только ведущие цифры (как в оригинальном JS)
             numeric = ""
             for ch in value:
                 if not ch.isdigit():
@@ -98,14 +95,6 @@ class _AntiScrapeTransform:
 # Public client
 
 class MinsktransClient:
-    """
-    Асинхронный клиент для неофициального API minsktrans.by.
-
-    Использование:
-        async with MinsktransClient() as client:
-            data = await client.scoreboard(stop_id="3087838")
-    """
-
     _BASE_URL = "https://www.minsktrans.by/lookout_yard"
     _FRONT_URL = f"{_BASE_URL}/Home/Index/minsk"
     _API_URL = f"{_BASE_URL}/Data/"

@@ -1,9 +1,3 @@
-"""
-proxy.py — локальный HTTP-прокси для ESP-01.
-Запуск: python proxy.py
-Оба файла (proxy.py и minsktrans.py) должны лежать рядом.
-"""
-
 import math
 import asyncio
 from aiohttp import web
@@ -101,7 +95,7 @@ async def reset_client():
 
 async def handle_buses(request: web.Request) -> web.Response:
     global _client
-    for attempt in range(2):  # одна повторная попытка при ошибке
+    for attempt in range(2):
         try:
             client = await get_client()
 
